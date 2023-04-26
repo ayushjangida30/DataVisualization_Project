@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="">
+	<title>CSC 511 - BC Students Home Languages</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="https:///d3js.org/topojson.v1.min.js"></script>
+
+	<style>
+		
+		#line_graph	{
+			margin-left: 2500px;
+		}
+		#line_graph_title	{
+			margin-left: 2535px;
+			margin-top: 10px;
+			font-size: 80px;
+			opacity: 0.5;
+		}
+	</style>
+</head>
+<body class="body">
+
+<p>
+	<a href="https://catalogue.data.gov.bc.ca/dataset/student-headcount-by-home-language/resource/942d798d-4c38-4705-b62e-e9d7bc8c15b4?inner_span=True">
+		<img src="BC Logo.png" alt="BC Government Logo" style="margin-left: 30px; width: 500px">
+	</a>
+</p>
+
+	<h3 style="font-size: 6em; font-family: Arial; margin-left: 30px;"> BC Students Home Languages Overtime</h3>
+<!--	<h4 style="font-size: 3em; font-family: Arial">Data collected from the BC Data Catalogue:-->
+<!--		<a href="https://catalogue.data.gov.bc.ca/dataset/student-headcount-by-home-language/resource/942d798d-4c38-4705-b62e-e9d7bc8c15b4?inner_span=True">-->
+<!--			Student Headcount by Home Language from 1991/92 - 2020/21</a>-->
+<!--		and-->
+<!--		<a href="https://catalogue.data.gov.bc.ca/dataset/school-districts-of-bc#edc-pow">-->
+<!--			BC School Districts</a>-->
+<!--	</h4>-->
+
+	<div>
+		<select name="languages" id="languages" onchange="newLanguage(this.value)" style="width: 300px; height: 100px; font-family: Arial; font-size: 30px; margin-top: 50px; margin-left: 30px; z-index: 8; position: absolute">
+			<optgroup style="max-height: 65px;" label="">
+			<option value="English" style="font-family: Arial; font-size: 30px">English</option>
+			<option value="Chinese" style="font-family: Arial; font-size: 30px" selected>Chinese</option>
+			<option value="Punjabi" style="font-family: Arial; font-size: 30px">Punjabi</option>
+			<option value="Tagalog (Philipino)" style="font-family: Arial; font-size: 30px">Tagalog (Philipino)</option>
+			<option value="Spanish" style="font-family: Arial; font-size: 30px" >Spanish</option>
+			<option value="Japanese" style="font-family: Arial; font-size: 30px">Japanese</option>
+			<option value="Polish" style="font-family: Arial; font-size: 30px">Polish</option>
+			<option value="Italian" style="font-family: Arial; font-size: 30px" >Italian</option>
+			<option value="Portuguese" style="font-family: Arial; font-size: 30px">Portuguese</option>
+			<option value="French" style="font-family: Arial; font-size: 30px">French</option>
+			<option value="Vietnamese" style="font-family: Arial; font-size: 30px" >Vietnamese</option>
+			<option value="Hindi" style="font-family: Arial; font-size: 30px">Hindi</option>
+			<option value="Korean" style="font-family: Arial; font-size: 30px">Korean</option>
+			<option value="Other Germanic" style="font-family: Arial; font-size: 30px" >Other Germanic</option>
+			<option value="Oneida" style="font-family: Arial; font-size: 30px">Oneida</option>
+			<option value="Czechoslovakian" style="font-family: Arial; font-size: 30px">Czechoslovakian</option>
+			<option value="Cambodian" style="font-family: Arial; font-size: 30px">Cambodian</option>
+			<option value="Russian" style="font-family: Arial; font-size: 30px" >Russian</option>
+			<option value="Hungarian" style="font-family: Arial; font-size: 30px">Hungarian</option>
+			<option value="Czech" style="font-family: Arial; font-size: 30px">Czech</option>
+			<option value="German" style="font-family: Arial; font-size: 30px" >German</option>
+			<option value="Finnish" style="font-family: Arial; font-size: 30px">Finnish</option>
+			<option value="Greek" style="font-family: Arial; font-size: 30px">Greek</option>
+			<option value="Laotian" style="font-family: Arial; font-size: 30px" >Laotian</option>
+			<option value="Persian" style="font-family: Arial; font-size: 30px">Persian</option>
+			<option value="Romanche" style="font-family: Arial; font-size: 30px">Romanche</option>
+			<option value="Tsilhqot'ln" style="font-family: Arial; font-size: 30px" >Tsilhgot'ln</option>
+			<option value="Carrier" style="font-family: Arial; font-size: 30px">Carrier</option>
+			<option value="Yugoslavian" style="font-family: Arial; font-size: 30px" >Yugoslavian</option>
+			<option value="Dutch" style="font-family: Arial; font-size: 30px">Dutch</option>
+
+			<option value="" style="font-family: Arial; font-size: 30px">Croatian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Signing</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Arabic</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Swedish</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Norweigan</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Pilipino</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other Languages</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other Wakashanes</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Cree</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Romanian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Malay-Bahasa</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Urdu</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Gujrati</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Danish</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Hebrew</option>
+
+			<option value="" style="font-family: Arial; font-size: 30px">Ukranian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Creole</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Gaelic</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Flemish</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Slovenian</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Other Malayo-Poly</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Secwepemc</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other African</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Icelandic</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Swaheli</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Inuktitut</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Other Semitic</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Sinhalese</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Turkish</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Bengali</option>
+
+			<option value="" style="font-family: Arial; font-size: 30px">Thagaloo</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Armenian</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Lahnda</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other Asiatic</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Catalan</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Bulgarian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Latvian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Serbian</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Tamil</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Loucheux</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Estonian</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Mohawk</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Afrikaans</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Other Dravidian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Kurdish</option>
+
+			<option value="" style="font-family: Arial; font-size: 30px">Maltese</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Luxemburguish</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Gitskan</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Malayalam</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Kwakwa'Ala</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Albanian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Thai</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Serbo-Croatian</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Romany</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Slovak</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Bhili</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Assamese</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Telegu</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Faroese</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Konkani</option>
+
+			<option value="" style="font-family: Arial; font-size: 30px">Baluchi</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Welsh</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Yiddish</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other Aboriginal</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other Indo Iranian</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Ojibway</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other Tai</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Tutchone</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Rajasthani</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Lithuanian</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Dunne-Za</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Pidgin</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Pahari</option>
+			<option value="" style="font-family: Arial; font-size: 30px" >Other Romance</option>
+			<option value="" style="font-family: Arial; font-size: 30px">Other Slavic</option>
+
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px" ></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px" ></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px" ></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px" ></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			<option value="" style="font-family: Arial; font-size: 30px" ></option>
+			<option value="" style="font-family: Arial; font-size: 30px"></option>
+			</optgroup>
+		</select>
+	</div>
+
+<!--	<div id="languageDropdown" style="margin-top: 50px; margin-left: 30px; z-index: 8; position: absolute"></div>-->
+	<div id="linegraph"></div>
+	<div id="timeSlider" style="margin-top: 1700px; margin-left: 30px; z-index: 9; position: absolute"></div>
+	<div id="mainmap" style="position: absolute"></div>
+
+
+<!--	<g class="tooltip-area">-->
+<!--		<rect style="fill: red; width: 500px; height: 500px">-->
+<!--			<text class="tooltip-area__text">aas</text>-->
+<!--		</rect>-->
+<!--	</g>-->
+
+
+</body>
+
+<script src="map_main.js"></script>
+
+</html>
